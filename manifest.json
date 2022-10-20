@@ -1,0 +1,32 @@
+{
+	"manifest_version": 3,
+	"name": "Block it for Me",
+	"description": "A Site blocker - Block unwanted Sites and increase productivity.",
+	"version": "1.0",
+	"action": {
+		"default_popup": "views/popup.html",
+		"default_icon": "assets/images/icon-16.png"
+	},
+	"icons": {
+		"16": "assets/images/icon-16.png",
+		"32": "assets/images/icon-32.png",
+		"48": "assets/images/icon-48.png",
+		"128": "assets/images/icon-128.png"
+	},
+	"host_permissions": [
+		"*://*/*"
+	],
+	"background": {
+		"service_worker": "assets/js/backgroundWorker.js"
+	},
+	"permissions": [
+		"storage", "scripting", "webNavigation", "nativeMessaging"
+	],
+	"options_page": "views/options.html",
+	"web_accessible_resources": [
+		{
+			"resources": ["assets/css/common.css", "assets/fonts/GothicA1-Regular.ttf"],
+			"matches": ["<all_urls>"]
+		}
+	]
+}

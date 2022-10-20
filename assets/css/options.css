@@ -1,0 +1,107 @@
+@import './common.css';
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+.blockitforme-options-page-content {
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.blockitforme-options-page-title {
+	margin-bottom: 1rem;
+}
+
+.blockitforme-options-page-content button {
+	text-decoration: none;
+	color: #fff;
+	background-color: #3457D5;
+	padding: 0.1rem 0.4rem;
+	border-radius: 0.2rem;
+	border: 2px solid #3457D5;
+	cursor: pointer;
+	font-size: 1rem;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.blockitforme-options-page-content button:hover {
+	color: #3457D5;
+	background-color: #fff;
+}
+
+.blockitforme-options-page-content .btnDelete {
+	background-color: #FF1744;
+	border-color: #FF1744;
+}
+
+.blockitforme-options-page-content .btnDelete:hover {
+	color: #FF1744;
+	background-color: #fff;
+}
+
+.blockitforme-progress-bar {
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+}
+.blockitforme-progress-bar:after {
+	content: " ";
+	display: block;
+	width: 64px;
+	height: 64px;
+	margin: 8px;
+	border-radius: 50%;
+	border: 6px solid #3457D5;
+	border-color: #3457D5 transparent #3457D5 transparent;
+	animation: blockitforme-progress-bar 1.2s linear infinite;
+}
+@keyframes blockitforme-progress-bar {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.blockitforme-progress-bar-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+body:not(.loading) .blockitforme-progress-bar-overlay {
+	display: none;
+}
+
+.blockitforme-websites-list > li .siteActionButtons {
+	float: right;
+	margin-left: auto;
+}
+
+.blockitforme-websites-list-item.editing .view-website-container,
+.blockitforme-websites-list-item .edit-website-container {
+	width: 100%;
+}
+
+.blockitforme-websites-list-item:not(.editing) .edit-website-container {
+	display: none;
+}
+
+.blockitforme-websites-list-item.editing .view-website-container {
+	display: none;
+}

@@ -1,0 +1,18 @@
+@import './common.css';
+
+html, body {
+	width: 20rem;
+	margin: 0;
+}
+
+.blockitforme-popup-page-content {
+	padding: 0.5rem;
+}
+
+.blockitforme-popup-page-title {
+	margin-bottom: 1rem;
+}
+
+.blockitforme-popup-page .blockitforme-nav-menu ul {
+	background-color: transparent;
+}

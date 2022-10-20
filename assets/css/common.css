@@ -1,0 +1,129 @@
+@font-face {
+	font-family: blockItForMe-Font;
+	font-style: normal;
+	font-weight: normal;
+	src: url('chrome-extension://__MSG_@@extension_id__/assets/fonts/GothicA1-Regular.ttf');
+}
+
+html, body {
+	font-family: blockItForMe-Font !important;
+}
+
+body * {
+	font-family: inherit;
+}
+
+.blockitforme-card .blockitforme-card-header {
+	background-color: #3457D5;
+	color: #fff;
+	border-top-left-radius: 0.2rem;
+	border-top-right-radius: 0.2rem;
+}
+
+.blockitforme-card .blockitforme-card-header,
+.blockitforme-card .blockitforme-card-body {
+	padding: 0.2rem 0.4rem;
+}
+
+.blockitforme-card .blockitforme-card-body {
+	border-right: 2px solid;
+	border-bottom: 2px solid;
+	border-left: 2px solid;
+	border-color: #3457D5;
+	border-bottom-left-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+
+.blockitforme-card-title {
+	display: flex;
+	align-items: center;
+}
+
+.blockitforme-card-title-buttons {
+	float: left;
+	margin-left: auto;
+}
+
+.blockitforme-card-title a,
+.blockitforme-card-title button {
+	color: #fff;
+	background: transparent;
+	border: none;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+}
+
+.blockitforme-nav-menu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background: #D3D3D3;
+	overflow: hidden;
+	display: inline-flex;
+	width: 100%;
+	align-items: center;
+	height: 2.5rem;
+}
+
+.blockitforme-nav-menu ul > li {
+	display: inline-flex;
+	float: left;
+	height: 100%;
+}
+
+.blockitforme-nav-menu ul > li > a {
+	display: inline-flex;
+	padding: 0.4rem 0.4rem 0.2rem 0.4rem;
+	color: #3457D5;
+	border-bottom: 0.2rem solid transparent;
+	text-decoration: none;
+	font-size: 1rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.blockitforme-nav-menu ul > li > a:hover {
+	border-bottom-color: #3457D5;
+}
+
+.blockitforme-nav-menu ul > li:not(:last-child) {
+	margin-right: 1rem;
+}
+
+.blockitforme-nav-menu-item-with-icon > a > img + span {
+	margin-left: 0.5rem;
+}
+
+.blockitforme-websites-list {
+	list-style-type: none;
+	padding-inline-start: 0;
+	margin: 0.2rem 0;
+}
+
+.blockitforme-websites-list > li {
+	padding: 0.25rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.blockitforme-websites-list > li:nth-child(odd) {
+	background: #80808030;
+}
+
+.blockitforme-websites-list > li:nth-child(even) {
+	background: #ffffff;
+}
+
+.blockitforme-websites-list > li > h3,
+.blockitforme-websites-list > li > p {
+	margin: 0;
+}
+
+.mb-1 {
+	margin-bottom: 1rem;
+}
