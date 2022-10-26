@@ -96,14 +96,25 @@ const Storage = freezeObject({
 });
 
 function sanitizeURL(url) {
-	if (url && url.length > 0) {
-		url = url.replace(/\/$/, '');
-		url = url.replace(/^https\:\/\//, '');
-		url = url.replace(/^http\:\/\//, '');
-		url = url.replace(/^www\./, '');
+	let site;
+
+	try {
+		if (url && url.length > 0) {
+			if (url.startsWith('http://') || url.startsWith('https://')) {
+				let urlObj = new URL(url);
+
+				site = urlObj.hostname;
+
+				site = site.replace(/^www\./, '');
+			} else {
+				site = url;
+			}
+		}
+	} catch(err) {
+		site = url;
 	}
 
-	return url;
+	return site;
 }
 
 function canBlockURL(url, blockedWebsites) {

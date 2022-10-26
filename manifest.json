@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "Block it for Me",
 	"description": "A Site blocker - Block unwanted Sites and increase productivity.",
-	"version": "1.0",
+	"version": "1.0.2",
 	"action": {
 		"default_popup": "views/popup.html",
 		"default_icon": "assets/images/icon-16.png"
@@ -20,7 +20,7 @@
 		"service_worker": "assets/js/backgroundWorker.js"
 	},
 	"permissions": [
-		"storage", "scripting", "webNavigation", "nativeMessaging"
+		"storage", "scripting", "webNavigation", "nativeMessaging", "contextMenus"
 	],
 	"options_page": "views/options.html",
 	"web_accessible_resources": [

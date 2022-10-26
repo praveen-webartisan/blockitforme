@@ -71,10 +71,34 @@ function initBackgroundWorker() {
 				window.open(chrome.runtime.getURL('views/options.html'));
 			}
 		}
+
+		chrome.contextMenus.create({
+			'id': 'ctxmenu-block-site',
+			'title': 'Block this site',
+			'contexts': ['page']
+		});
 	});
 
 	chrome.webNavigation.onCommitted.addListener(function (details) {
 		checkAndBlockWebsite(details.url, details.tabId, details.frameType, details.frameId);
+	});
+
+	chrome.contextMenus.onClicked.addListener(function(info, tab) {
+		if (info.menuItemId == 'ctxmenu-block-site' && tab && tab.id) {
+			let url;
+
+			if (info.frameId > 0 && info.frameUrl) {
+				url = info.frameUrl;
+			} else if (info.pageUrl) {
+				url = info.pageUrl;
+			}
+
+			if (url && url != 'new-tab-page' && ( url.startsWith('http://') || url.startsWith('https://') )) {
+				Storage.BlockedWebsites.Add(url);
+
+				chrome.tabs.reload(tab.id);
+			}
+		}
 	});
 }
 
