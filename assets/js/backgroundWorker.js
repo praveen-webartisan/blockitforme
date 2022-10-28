@@ -42,10 +42,6 @@ let blockedWebsites = [];
 	}
 }
 
-function removeContextMenusInTheTab(tabId) {
-	chrome.contextMenus.remove('ctxmenu-block-site-' + tabId);
-}
-
 function initBackgroundWorker() {
 	Storage.BlockedWebsites.List(function(websitesList) {
 		blockedWebsites = websitesList;
@@ -75,6 +71,12 @@ function initBackgroundWorker() {
 				window.open(chrome.runtime.getURL('views/options.html'));
 			}
 		}
+
+		chrome.contextMenus.create({
+			'id': 'ctxmenu-block-site',
+			'title': 'Block this site',
+			'contexts': ['all'],
+		});
 	});
 
 	chrome.webNavigation.onCommitted.addListener(function (details) {
@@ -82,7 +84,7 @@ function initBackgroundWorker() {
 	});
 
 	chrome.contextMenus.onClicked.addListener(function(info, tab) {
-		if (info.menuItemId.startsWith('ctxmenu-block-site-') && tab && tab.id) {
+		if (info.menuItemId.startsWith('ctxmenu-block-site') && tab && tab.id) {
 			let url;
 
 			if (info.frameId > 0 && info.frameUrl) {
@@ -97,33 +99,6 @@ function initBackgroundWorker() {
 				});
 			}
 		}
-	});
-
-	chrome.tabs.onCreated.addListener(function(tab) {
-		chrome.contextMenus.create({
-			'id': 'ctxmenu-block-site-' + tab.id,
-			'title': 'Block this site',
-			'contexts': ['all'],
-			'documentUrlPatterns': ['*key: "value", //ctxmenu-block-site/*']
-		});
-	});
-
-	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-		if (tab.url) {
-			chrome.contextMenus.update('ctxmenu-block-site-' + tab.id, {
-				'title': canBlockURL(tab.url, blockedWebsites) ? 'Unblock this site' : 'Block this site',
-				'contexts': ['all'],
-				'documentUrlPatterns': [tab.url]
-			});
-		}
-	});
-
-	chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-		removeContextMenusInTheTab(tabId);
-	});
-
-	chrome.tabs.onReplaced.addListener(function(addedTabId, removedTabId) {
-		removeContextMenusInTheTab(removedTabId);
 	});
 }
 
