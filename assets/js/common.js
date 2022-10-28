@@ -25,9 +25,9 @@ const Storage = freezeObject({
 			let exists = false;
 			website = website.toLowerCase();
 
-			websitesList.forEach(function(w) {
+			websitesList.forEach((w, i) => {
 				if (sanitizeURL(w.toLowerCase()) == website) {
-					exists = true;
+					exists = i;
 					return;
 				}
 			});
@@ -83,6 +83,30 @@ const Storage = freezeObject({
 					if (websitesList && websitesList.length > websiteIndex) {
 						websitesList.splice(websiteIndex, 1);
 					}
+				}
+
+				chrome.storage.sync.set({'blockedWebsites': websitesList}, () => {
+					if (typeof callback == 'function') {
+						callback();
+					}
+				});
+			});
+		},
+		'DeleteIfExistsOrAdd': function(newWebsite, callback) {
+			Storage.BlockedWebsites.List((websitesList) => {
+				if (websitesList) {
+					if (newWebsite) {
+						newWebsite = sanitizeURL(newWebsite.trim().toLowerCase());
+						let exists = Storage.BlockedWebsites.Exists(websitesList, newWebsite);
+
+						if (typeof(exists) == 'number' && exists > -1) {
+							websitesList.splice(exists, 1);
+						} else {
+							websitesList.push(newWebsite);
+						}
+					}
+				} else {
+					websitesList = [];
 				}
 
 				chrome.storage.sync.set({'blockedWebsites': websitesList}, () => {
