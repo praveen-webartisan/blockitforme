@@ -1,7 +1,6 @@
 importScripts('./common.js');
 
 let blockedWebsites = [];
-let activeTabs = {};
 
  async function checkAndBlockWebsite(url, tabId, frameType = false, frameId = false) {
 	let tabInfo = null;
@@ -45,12 +44,6 @@ let activeTabs = {};
 
 function removeContextMenusInTheTab(tabId) {
 	chrome.contextMenus.remove('ctxmenu-block-site-' + tabId);
-
-	if (activeTabs[tabId]) {
-		(activeTabs[tabId]['contextMenus'] || []).forEach((ctxMenuId) => {
-			chrome.contextMenus.remove(ctxMenuId);
-		});
-	}
 }
 
 function initBackgroundWorker() {
@@ -107,40 +100,20 @@ function initBackgroundWorker() {
 	});
 
 	chrome.tabs.onCreated.addListener(function(tab) {
-		activeTabs[tab.id] = {};
+		chrome.contextMenus.create({
+			'id': 'ctxmenu-block-site-' + tab.id,
+			'title': 'Block this site',
+			'contexts': ['all'],
+			'documentUrlPatterns': ['*key: "value", //ctxmenu-block-site/*']
+		});
 	});
 
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		if (tab.url) {
-			chrome.webNavigation.getAllFrames({
-				'tabId': tabId,
-			}, (frames) => {
-				if (!activeTabs[tabId]) {
-					activeTabs[tabId] = {};
-				}
-
-				(activeTabs[tabId]['contextMenus'] || []).forEach((ctxMenuId) => {
-					chrome.contextMenus.remove(ctxMenuId);
-				});
-
-				activeTabs[tabId]['contextMenus'] = [];
-
-				(frames || []).forEach((frame) => {
-					if (frame.url) {
-						let frameURLObj = new URL(frame.url);
-						let frameURL = frameURLObj.origin.replace(/\/$/, '') + '/' + frameURLObj.pathname.replace(/^\//, '');
-						let ctxMenuURLPatterns = [frameURL, frameURL.replace(/\/$/, '') + '/*'];
-
-						let ctxMenuId = chrome.contextMenus.create({
-							'id': 'ctxmenu-block-site-' + tab.id + '-' + frame.frameId,
-							'title': canBlockURL(frame.url, blockedWebsites) ? 'Unblock this site' : 'Block this site',
-							'contexts': ['all'],
-							'documentUrlPatterns': ctxMenuURLPatterns
-						});
-
-						activeTabs[tabId]['contextMenus'].push(ctxMenuId);
-					}
-				});
+			chrome.contextMenus.update('ctxmenu-block-site-' + tab.id, {
+				'title': canBlockURL(tab.url, blockedWebsites) ? 'Unblock this site' : 'Block this site',
+				'contexts': ['all'],
+				'documentUrlPatterns': [tab.url]
 			});
 		}
 	});
